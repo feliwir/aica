@@ -1,0 +1,18 @@
+[submodule "deps/xtensor"]
+	path = deps/xtensor
+	url = https://github.com/QuantStack/xtensor.git
+[submodule "deps/xtl"]
+	path = deps/xtl
+	url = https://github.com/QuantStack/xtl
+[submodule "deps/xsimd"]
+	path = deps/xsimd
+	url = https://github.com/QuantStack/xsimd/
+[submodule "deps/mnist"]
+	path = deps/mnist
+	url = https://github.com/wichtounet/mnist
+[submodule "deps/xtensor-blas"]
+	path = deps/xtensor-blas
+	url = https://github.com/QuantStack/xtensor-blas/
+[submodule "deps/openblas"]
+	path = deps/openblas
+	url = https://github.com/xianyi/OpenBLAS

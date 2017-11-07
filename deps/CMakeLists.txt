@@ -1,0 +1,6 @@
+set(BUILD_TESTS OFF CACHE BOOL "No tests required")
+set(xtl_DIR ${CMAKE_CURRENT_SOURCE_DIR}/xtl PATH "xtl Directory")
+add_subdirectory(xsimd)
+add_subdirectory(xtl)
+add_subdirectory(xtensor)
+add_subdirectory(xtensor-blas)
