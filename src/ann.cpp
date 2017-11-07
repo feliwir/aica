@@ -10,27 +10,27 @@ aica::Network::Network(int inputs, int hiddens, int outs, double lr) :
 	m_wih = xt::random::randn({m_hiddens,m_inputs }, 0.0, std::pow(m_inputs , -0.5));
 	m_who = xt::random::randn({m_outputs,m_hiddens}, 0.0, std::pow(m_hiddens, -0.5));
 
-	m_activation = Activations::Sigmoid<double>;
+	m_activation = Activations::Sigmoid<float>;
 }
 
 void aica::Network::Train(xt::xarray<float> inputs, xt::xarray<float> targets)
 {
 	auto& activation = xt::vectorize(m_activation);
 
-	auto hiddenInputs = xt::linalg::dot(inputs, m_wih);
-	auto hiddenOutputs = activation(hiddenInputs);
+	xt::xarray<float> hiddenInputs = xt::linalg::dot(m_wih, inputs);
+	xt::xarray<float> hiddenOutputs = activation(hiddenInputs);
 
-	auto finalInputs = xt::linalg::dot(hiddenOutputs, m_who);
-	auto finalOutputs = activation(finalInputs);
+	xt::xarray<float> finalInputs = xt::linalg::dot(m_who, hiddenOutputs);
+	xt::xarray<float> finalOutputs = activation(finalInputs);
 
-	auto outputErrors = targets - finalOutputs;
+	xt::xarray<float> outputErrors = targets - finalOutputs;
 
-	auto hiddenErrors = xt::linalg::dot(xt::transpose(m_who), outputErrors);
+	xt::xarray<float> hiddenErrors = xt::linalg::dot(xt::transpose(m_who), outputErrors);
 
-	m_who += m_learningRate * xt::linalg::dot((outputErrors * finalOutputs * (1.0 - finalOutputs)),
+	m_who += m_learningRate * xt::linalg::dot((outputErrors * finalOutputs * (1.0f - finalOutputs)),
 											xt::transpose(hiddenOutputs));
 
-	m_wih += m_learningRate * xt::linalg::dot((hiddenErrors * hiddenOutputs * (1.0 - hiddenOutputs)),
+	m_wih += m_learningRate * xt::linalg::dot((hiddenErrors * hiddenOutputs * (1.0f - hiddenOutputs)),
 		xt::transpose(inputs));
 }
 
@@ -38,11 +38,11 @@ xt::xarray<float> aica::Network::Query(xt::xarray<float> inputs)
 {
 	auto& activation = xt::vectorize(m_activation);
 
-	auto hiddenInputs = xt::linalg::dot(inputs, m_wih);
-	auto hiddenOutputs = activation(hiddenInputs);
+	xt::xarray<float> hiddenInputs = xt::linalg::dot(m_wih, inputs);
+	xt::xarray<float> hiddenOutputs = activation(hiddenInputs);
 
-	auto finalInputs = xt::linalg::dot(hiddenOutputs, m_who);
-	auto finalOutputs = activation(finalInputs);
+	xt::xarray<float> finalInputs = xt::linalg::dot(m_who, hiddenOutputs);
+	xt::xarray<float> finalOutputs = activation(finalInputs);
 
 	return finalOutputs;
 }

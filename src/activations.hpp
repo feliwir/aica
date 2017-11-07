@@ -9,7 +9,7 @@ namespace aica
         template<class T>
         static inline T Sigmoid(T x)
         {
-			return 1 / (1 + exp(-x));
+			return (T)1.0 / ((T)1.0 + exp(-x));
         }; 
     };
 }

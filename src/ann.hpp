@@ -19,7 +19,7 @@ namespace aica
 		int m_inputs;
 		int m_hiddens;
 		int m_outputs;
-		double m_learningRate;
+		float m_learningRate;
 		std::function<double(double)> m_activation;
 	};
 }
