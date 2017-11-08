@@ -4,9 +4,11 @@
 #include <mnist/mnist_reader.hpp>
 #include <chrono>
 
+#define MNIST_SIZE 784
+
 int main(int argc,char** argv)
 {
-	aica::Network net(784,100,10,0.2);
+	aica::Network net(MNIST_SIZE,100,10,0.2);
 
 	auto start = std::chrono::high_resolution_clock::now();
 	auto dataset = mnist::read_dataset();
@@ -18,16 +20,16 @@ int main(int argc,char** argv)
 	int idx = 0;
 	for (auto img : dataset.training_images)
 	{
-		auto lbl = dataset.training_labels[idx];
+		auto& lbl = dataset.training_labels[idx];
 		
 		xt::xarray<uint8_t> uimg;
-		std::array<std::size_t,1> shape = { 768 };
+		std::array<std::size_t,2> shape = { MNIST_SIZE,1 };
 		auto arr = xt::xadapt(img, shape, xt::layout_type::row_major);
 		auto ftensor = xt::cast<float>(arr);
 		auto normalized = ftensor/255.0*0.99+0.01;
 	
-		xt::xtensor<float,1> targets = xt::zeros<float>({ 10 }) + 0.01;
-		targets[lbl] = 0.99;
+		xt::xtensor<float,2> targets = xt::zeros<float>({ 10,1 }) + 0.01;
+		targets(lbl,0) = 0.99;
 
 		net.Train(normalized, targets);
 		++idx;
@@ -40,21 +42,21 @@ int main(int argc,char** argv)
 	idx = 0;
 	for (auto img : dataset.test_images)
 	{
-		auto lbl = dataset.test_labels[idx];
+		uint8_t lbl = dataset.test_labels[idx];
 
 		xt::xarray<uint8_t> uimg;
-		std::array<std::size_t, 1> shape = { 768 };
+		std::array<std::size_t, 2> shape = { MNIST_SIZE,1 };
 		auto arr = xt::xadapt(img, shape, xt::layout_type::row_major);
 		auto ftensor = xt::cast<float>(arr);
 		auto normalized = ftensor / 255.0*0.99 + 0.01;
 
 		auto result = net.Query(normalized);
 
-		std::cout << "Correct: " << lbl;
+		std::cout << "Correct: " << std::to_string(lbl) << std::endl;
 		for (int i = 0; i < 10; ++i)
 		{
 			
-			std::cout << result[i] << std::endl;
+			std::cout << result(i,0) << std::endl;
 		}
 		++idx;
 	}
