@@ -13,6 +13,3 @@
 [submodule "deps/xtensor-blas"]
 	path = deps/xtensor-blas
 	url = https://github.com/QuantStack/xtensor-blas/
-[submodule "deps/openblas"]
-	path = deps/openblas
-	url = https://github.com/xianyi/OpenBLAS

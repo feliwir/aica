@@ -38,6 +38,9 @@ int main(int argc,char** argv)
 	end = std::chrono::high_resolution_clock::now();
 	duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 	std::cout << "Finished training after " << duration.count() << "ms" << std::endl;
+	start = end;
+
+	std::vector<int> correct;
 
 	idx = 0;
 	for (auto img : dataset.test_images)
@@ -52,14 +55,26 @@ int main(int argc,char** argv)
 
 		auto result = net.Query(normalized);
 
-		std::cout << "Correct: " << std::to_string(lbl) << std::endl;
-		for (int i = 0; i < 10; ++i)
-		{
-			
-			std::cout << result(i,0) << std::endl;
-		}
+		int max = 0;
+		for (int i = 0; i < 10; ++i)		
+			if (result(i, 0) > result(max, 0))
+				max = i;
+		
+		if (max == lbl)
+			correct.push_back(1);
+		else
+			correct.push_back(0);
 		++idx;
 	}
+
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	std::cout << "Finished testing after " << duration.count() << "ms" << std::endl;
+
+	int sum = std::accumulate(correct.begin(), correct.end(), 0);
+	double acc = (double)sum / correct.size();
+
+	std::cout << "Recognition accuracy is: " << acc << std::endl;
 
     return 0;
 }

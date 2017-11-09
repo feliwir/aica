@@ -15,13 +15,11 @@ aica::Network::Network(int inputs, int hiddens, int outs, double lr) :
 
 void aica::Network::Train(xt::xarray<float> inputs, xt::xarray<float> targets)
 {
-	auto& activation = xt::vectorize(m_activation);
-
 	xt::xarray<float> hiddenInputs = xt::linalg::dot(m_wih, inputs);
-	xt::xarray<float> hiddenOutputs = activation(hiddenInputs);
+	xt::xarray<float> hiddenOutputs = m_activation(hiddenInputs);
 
 	xt::xarray<float> finalInputs = xt::linalg::dot(m_who, hiddenOutputs);
-	xt::xarray<float> finalOutputs = activation(finalInputs);
+	xt::xarray<float> finalOutputs = m_activation(finalInputs);
 
 	xt::xarray<float> outputErrors = targets - finalOutputs;
 
@@ -36,13 +34,11 @@ void aica::Network::Train(xt::xarray<float> inputs, xt::xarray<float> targets)
 
 xt::xarray<float> aica::Network::Query(xt::xarray<float> inputs)
 {
-	auto& activation = xt::vectorize(m_activation);
-
 	xt::xarray<float> hiddenInputs = xt::linalg::dot(m_wih, inputs);
-	xt::xarray<float> hiddenOutputs = activation(hiddenInputs);
+	xt::xarray<float> hiddenOutputs = m_activation(hiddenInputs);
 
 	xt::xarray<float> finalInputs = xt::linalg::dot(m_who, hiddenOutputs);
-	xt::xarray<float> finalOutputs = activation(finalInputs);
+	xt::xarray<float> finalOutputs = m_activation(finalInputs);
 
 	return finalOutputs;
 }

@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.6)
 project(AICA LANGUAGES CXX)
 
 set(AICA_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 
-#add_subdirectory(deps)
+add_subdirectory(deps)
 
 add_subdirectory(src)
 

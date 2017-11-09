@@ -20,6 +20,6 @@ namespace aica
 		int m_hiddens;
 		int m_outputs;
 		float m_learningRate;
-		std::function<double(double)> m_activation;
+		std::function<xt::xarray<float>(xt::xarray<float>)> m_activation;
 	};
 }
