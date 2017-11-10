@@ -74,7 +74,9 @@ int main(int argc,char** argv)
 	int sum = std::accumulate(correct.begin(), correct.end(), 0);
 	double acc = (double)sum / correct.size();
 
-	std::cout << "Recognition accuracy is: " << acc << std::endl;
+	std::cout << "Recognition accuracy is: " << std::setprecision(5)  << acc << std::endl;
 
+	int n = 0;
+	std::cin >> n;
     return 0;
 }

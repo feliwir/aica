@@ -23,13 +23,16 @@ void aica::Network::Train(xt::xarray<float> inputs, xt::xarray<float> targets)
 
 	xt::xarray<float> outputErrors = targets - finalOutputs;
 
-	xt::xarray<float> hiddenErrors = xt::linalg::dot(xt::transpose(m_who), outputErrors);
+	xt::xarray<float> tmp_t = xt::transpose(m_who);
+	xt::xarray<float> hiddenErrors = xt::linalg::dot(tmp_t, outputErrors);
 
+	tmp_t = xt::transpose(hiddenOutputs);
 	m_who += m_learningRate * xt::linalg::dot((outputErrors * finalOutputs * (1.0f - finalOutputs)),
-											xt::transpose(hiddenOutputs));
+		tmp_t);
 
+	tmp_t = xt::transpose(inputs);
 	m_wih += m_learningRate * xt::linalg::dot((hiddenErrors * hiddenOutputs * (1.0f - hiddenOutputs)),
-		xt::transpose(inputs));
+		tmp_t);
 }
 
 xt::xarray<float> aica::Network::Query(xt::xarray<float> inputs)

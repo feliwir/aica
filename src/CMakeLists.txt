@@ -3,7 +3,7 @@
 add_library(aica STATIC activations.hpp 
                         ann.cpp ann.hpp)
 
-target_compile_definitions(aica PUBLIC XTENSOR_USE_XSIMD)
+# target_compile_definitions(aica PUBLIC XTENSOR_USE_XSIMD)
 
 find_package(BLAS)
 
