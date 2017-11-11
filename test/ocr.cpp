@@ -18,7 +18,7 @@ int main(int argc,char** argv)
 	start = end;
 
 	int idx = 0;
-	for (auto img : dataset.training_images)
+	for (const auto& img : dataset.training_images)
 	{
 		auto& lbl = dataset.training_labels[idx];
 		
@@ -43,7 +43,7 @@ int main(int argc,char** argv)
 	std::vector<int> correct;
 
 	idx = 0;
-	for (auto img : dataset.test_images)
+	for (const auto& img : dataset.test_images)
 	{
 		uint8_t lbl = dataset.test_labels[idx];
 

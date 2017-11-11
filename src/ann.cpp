@@ -7,13 +7,15 @@
 aica::Network::Network(int inputs, int hiddens, int outs, double lr) :
 	m_inputs(inputs), m_hiddens(hiddens), m_outputs(outs), m_learningRate(lr)
 {
+	//m_wih = xt::random::rand<float>({ m_hiddens,m_inputs },-0.5,0.5);
+	//m_who = xt::random::rand<float>({ m_outputs,m_hiddens},-0.5,0.5);
 	m_wih = xt::random::randn({m_hiddens,m_inputs }, 0.0, std::pow(m_inputs , -0.5));
 	m_who = xt::random::randn({m_outputs,m_hiddens}, 0.0, std::pow(m_hiddens, -0.5));
 
 	m_activation = Activations::Sigmoid<float>;
 }
 
-void aica::Network::Train(xt::xarray<float> inputs, xt::xarray<float> targets)
+void aica::Network::Train(const xt::xarray<float>& inputs,const xt::xarray<float>& targets)
 {
 	xt::xarray<float> hiddenInputs = xt::linalg::dot(m_wih, inputs);
 	xt::xarray<float> hiddenOutputs = m_activation(hiddenInputs);
@@ -35,7 +37,7 @@ void aica::Network::Train(xt::xarray<float> inputs, xt::xarray<float> targets)
 		tmp_t);
 }
 
-xt::xarray<float> aica::Network::Query(xt::xarray<float> inputs)
+xt::xarray<float> aica::Network::Query(const xt::xarray<float>& inputs) const
 {
 	xt::xarray<float> hiddenInputs = xt::linalg::dot(m_wih, inputs);
 	xt::xarray<float> hiddenOutputs = m_activation(hiddenInputs);

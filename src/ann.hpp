@@ -10,9 +10,9 @@ namespace aica
 	public:
 		Network(int input, int hidden, int out, double learningrate);
 
-		void Train(xt::xarray<float> inputs, xt::xarray<float> targets);
+		void Train(const xt::xarray<float>& inputs,const xt::xarray<float>& targets);
 
-		xt::xarray<float> Query(xt::xarray<float> inputs);
+		xt::xarray<float> Query(const xt::xarray<float>& inputs) const;
 	private:
 		xt::xarray<float> m_wih;
 		xt::xarray<float> m_who;
