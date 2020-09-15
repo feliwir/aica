@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 
         xt::xarray<uint8_t> uimg;
         std::array<std::size_t, 2> shape = {MNIST_SIZE, 1};
-        auto arr = xt::xadapt(img, shape, xt::layout_type::row_major);
+        auto arr = xt::adapt(img, shape, xt::layout_type::row_major);
         auto ftensor = xt::cast<float>(arr);
         auto normalized = ftensor / 255.0 * 0.99 + 0.01;
 
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
         xt::xarray<uint8_t> uimg;
         std::array<std::size_t, 2> shape = {MNIST_SIZE, 1};
-        auto arr = xt::xadapt(img, shape, xt::layout_type::row_major);
+        auto arr = xt::adapt(img, shape, xt::layout_type::row_major);
         auto ftensor = xt::cast<float>(arr);
         auto normalized = ftensor / 255.0 * 0.99 + 0.01;
 
